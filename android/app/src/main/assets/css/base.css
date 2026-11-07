@@ -1,0 +1,236 @@
+/* ==========================================================================
+   Base — reset, app shell, scrollbars, utilities
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--md-sys-font-family);
+  font-size: var(--md-sys-typescale-body-medium);
+  line-height: var(--md-sys-typescale-body-medium-lh);
+  color: var(--md-sys-color-on-surface);
+  background: var(--md-sys-color-surface);
+  overflow: hidden;
+  overscroll-behavior: none;
+  transition: background-color var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-standard),
+    color var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-standard);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  border: 0;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+a {
+  color: var(--md-sys-color-primary);
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+::selection {
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+}
+
+/* Scrollbars: thin, MD3-ish */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--md-sys-color-outline-variant) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--md-sys-color-outline-variant);
+  border-radius: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ---------- App shell ---------- */
+
+#app {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--md-sys-color-surface);
+}
+
+.scroll-y {
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- Ripple / state layer ---------- */
+
+.state-layer {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: currentColor;
+  transition: opacity var(--md-sys-motion-duration-short2) linear;
+  z-index: 0;
+}
+
+.rippler {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.16;
+  transform: scale(0);
+  animation: ripple-in var(--md-sys-motion-duration-long2) var(--md-sys-motion-easing-standard-decelerate) forwards;
+  pointer-events: none;
+}
+
+.ripple.fade {
+  animation: ripple-out var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-standard) forwards;
+}
+
+@keyframes ripple-in {
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes ripple-out {
+  to {
+    opacity: 0;
+  }
+}
+
+/* ---------- Layout helpers ---------- */
+
+.container {
+  width: 100%;
+  max-width: var(--app-max-width);
+  margin-inline: auto;
+  padding-inline: var(--app-gutter);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.spread {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.grow {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ---------- Typescale utilities ---------- */
+
+.t-display-l { font-size: var(--md-sys-typescale-display-large); line-height: var(--md-sys-typescale-display-large-lh); font-weight: 400; letter-spacing: -0.25px; }
+.t-display-m { font-size: var(--md-sys-typescale-display-medium); line-height: var(--md-sys-typescale-display-medium-lh); font-weight: 400; }
+.t-display-s { font-size: var(--md-sys-typescale-display-small); line-height: var(--md-sys-typescale-display-small-lh); font-weight: 400; }
+.t-headline-l { font-size: var(--md-sys-typescale-headline-large); line-height: var(--md-sys-typescale-headline-large-lh); font-weight: 400; }
+.t-headline-m { font-size: var(--md-sys-typescale-headline-medium); line-height: var(--md-sys-typescale-headline-medium-lh); font-weight: 400; }
+.t-headline-s { font-size: var(--md-sys-typescale-headline-small); line-height: var(--md-sys-typescale-headline-small-lh); font-weight: 400; }
+.t-title-l { font-size: var(--md-sys-typescale-title-large); line-height: var(--md-sys-typescale-title-large-lh); font-weight: 400; }
+.t-title-m { font-size: var(--md-sys-typescale-title-medium); line-height: var(--md-sys-typescale-title-medium-lh); font-weight: 500; letter-spacing: 0.15px; }
+.t-title-s { font-size: var(--md-sys-typescale-title-small); line-height: var(--md-sys-typescale-title-small-lh); font-weight: 500; letter-spacing: 0.1px; }
+.t-body-l { font-size: var(--md-sys-typescale-body-large); line-height: var(--md-sys-typescale-body-large-lh); font-weight: 400; letter-spacing: 0.5px; }
+.t-body-m { font-size: var(--md-sys-typescale-body-medium); line-height: var(--md-sys-typescale-body-medium-lh); font-weight: 400; letter-spacing: 0.25px; }
+.t-body-s { font-size: var(--md-sys-typescale-body-small); line-height: var(--md-sys-typescale-body-small-lh); font-weight: 400; letter-spacing: 0.4px; }
+.t-label-l { font-size: var(--md-sys-typescale-label-large); line-height: var(--md-sys-typescale-label-large-lh); font-weight: 500; letter-spacing: 0.1px; }
+.t-label-m { font-size: var(--md-sys-typescale-label-medium); line-height: var(--md-sys-typescale-label-medium-lh); font-weight: 500; letter-spacing: 0.5px; }
+.t-label-s { font-size: var(--md-sys-typescale-label-small); line-height: var(--md-sys-typescale-label-small-lh); font-weight: 500; letter-spacing: 0.5px; }
+
+.on-surface { color: var(--md-sys-color-on-surface); }
+.on-surface-variant { color: var(--md-sys-color-on-surface-variant); }
+.primary { color: var(--md-sys-color-primary); }
+.error { color: var(--md-sys-color-error); }

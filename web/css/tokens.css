@@ -1,0 +1,118 @@
+/* ==========================================================================
+   Material Design 3 — Design tokens
+   Color roles are injected at runtime by js/theme.js (dynamic color).
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* ---- Typography (MD3 typescale, 1rem = 16px) ---- */
+  --md-sys-typescale-display-large: 57px;
+  --md-sys-typescale-display-medium: 45px;
+  --md-sys-typescale-display-small: 36px;
+  --md-sys-typescale-headline-large: 32px;
+  --md-sys-typescale-headline-medium: 28px;
+  --md-sys-typescale-headline-small: 24px;
+  --md-sys-typescale-title-large: 22px;
+  --md-sys-typescale-title-medium: 16px;
+  --md-sys-typescale-title-small: 14px;
+  --md-sys-typescale-body-large: 16px;
+  --md-sys-typescale-body-medium: 14px;
+  --md-sys-typescale-body-small: 12px;
+  --md-sys-typescale-label-large: 14px;
+  --md-sys-typescale-label-medium: 12px;
+  --md-sys-typescale-label-small: 11px;
+
+  --md-sys-typescale-display-large-lh: 64px;
+  --md-sys-typescale-display-medium-lh: 52px;
+  --md-sys-typescale-display-small-lh: 44px;
+  --md-sys-typescale-headline-large-lh: 40px;
+  --md-sys-typescale-headline-medium-lh: 36px;
+  --md-sys-typescale-headline-small-lh: 32px;
+  --md-sys-typescale-title-large-lh: 28px;
+  --md-sys-typescale-title-medium-lh: 24px;
+  --md-sys-typescale-title-small-lh: 20px;
+  --md-sys-typescale-body-large-lh: 24px;
+  --md-sys-typescale-body-medium-lh: 20px;
+  --md-sys-typescale-body-small-lh: 16px;
+  --md-sys-typescale-label-large-lh: 20px;
+  --md-sys-typescale-label-medium-lh: 16px;
+  --md-sys-typescale-label-small-lh: 16px;
+
+  --md-sys-typescale-weight-regular: 400;
+  --md-sys-typescale-weight-medium: 500;
+  --md-sys-typescale-weight-bold: 700;
+
+  --md-sys-font-family: "Roboto Flex", "Roboto", "Noto Sans SC", "PingFang SC",
+    "Microsoft YaHei", system-ui, -apple-system, sans-serif;
+  --md-sys-font-family-brand: "Roboto", "Noto Serif SC", serif;
+
+  /* ---- Shape ---- */
+  --md-sys-shape-corner-none: 0px;
+  --md-sys-shape-corner-extra-small: 4px;
+  --md-sys-shape-corner-small: 8px;
+  --md-sys-shape-corner-medium: 12px;
+  --md-sys-shape-corner-large: 16px;
+  --md-sys-shape-corner-large-increased: 20px;
+  --md-sys-shape-corner-extra-large: 28px;
+  --md-sys-shape-corner-extra-large-increased: 32px;
+  --md-sys-shape-corner-full: 9999px;
+
+  /* ---- Elevation (MD3 shadow levels) ---- */
+  --md-sys-elevation-0: none;
+  --md-sys-elevation-1: 0 1px 2px 0 rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15);
+  --md-sys-elevation-2: 0 1px 2px 0 rgba(0, 0, 0, 0.3), 0 2px 6px 2px rgba(0, 0, 0, 0.15);
+  --md-sys-elevation-3: 0 4px 8px 3px rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+  --md-sys-elevation-4: 0 6px 10px 4px rgba(0, 0, 0, 0.15), 0 2px 3px 0 rgba(0, 0, 0, 0.3);
+  --md-sys-elevation-5: 0 8px 12px 6px rgba(0, 0, 0, 0.15), 0 4px 4px 0 rgba(0, 0, 0, 0.3);
+
+  /* ---- State layers ---- */
+  --md-sys-state-hover-opacity: 0.08;
+  --md-sys-state-focus-opacity: 0.1;
+  --md-sys-state-pressed-opacity: 0.1;
+  --md-sys-state-dragged-opacity: 0.16;
+
+  /* ---- Motion (MD3 easing & duration tokens) ---- */
+  --md-sys-motion-easing-linear: cubic-bezier(0, 0, 1, 1);
+  --md-sys-motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+  --md-sys-motion-easing-standard-accelerate: cubic-bezier(0.3, 0, 1, 1);
+  --md-sys-motion-easing-standard-decelerate: cubic-bezier(0, 0, 0, 1);
+  --md-sys-motion-easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --md-sys-motion-easing-emphasized-accelerate: cubic-bezier(0.3, 0, 0.8, 0.15);
+  --md-sys-motion-easing-emphasized-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
+
+  --md-sys-motion-duration-short1: 50ms;
+  --md-sys-motion-duration-short2: 100ms;
+  --md-sys-motion-duration-short3: 150ms;
+  --md-sys-motion-duration-short4: 200ms;
+  --md-sys-motion-duration-medium1: 250ms;
+  --md-sys-motion-duration-medium2: 300ms;
+  --md-sys-motion-duration-medium3: 350ms;
+  --md-sys-motion-duration-medium4: 400ms;
+  --md-sys-motion-duration-long1: 450ms;
+  --md-sys-motion-duration-long2: 500ms;
+  --md-sys-motion-duration-long3: 550ms;
+  --md-sys-motion-duration-long4: 600ms;
+  --md-sys-motion-duration-extra-long1: 700ms;
+
+  /* Global motion intensity: 1 = full, 0 = off (accessibility / e-ink) */
+  --md-motion-scale: 1;
+  --md-motion-factor: 1;
+
+  /* Layout */
+  --app-max-width: 1180px;
+  --app-gutter: 16px;
+  --nav-bar-height: 80px;
+  --top-app-bar-small: 64px;
+  --top-app-bar-medium: 112px;
+  --top-app-bar-large: 152px;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Reduce motion: keep the UI usable on e-ink / weak devices */
+:root[data-motion="off"] { --md-motion-scale: 0; --md-motion-factor: 0.001; }
+:root[data-motion="reduced"] { --md-motion-scale: 0.55; --md-motion-factor: 0.55; }
+
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion="full"]) { --md-motion-scale: 0.55; --md-motion-factor: 0.55; }
+}

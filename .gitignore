@@ -1,0 +1,31 @@
+# 构建产物
+dist/
+build/
+.gradle/
+node_modules/
+__pycache__/
+*.pyc
+
+# 本机配置与签名
+local.properties
+keystore.properties
+*.jks
+*.keystore
+
+# 二进制与大件
+*.apk
+*.aab
+*.idsig
+*.zip
+*.epub
+*.txt.bak
+
+# 抓取中间态
+fetcher/state/
+*.tmp
+
+# 编辑器 / 系统
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

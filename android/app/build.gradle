@@ -1,0 +1,71 @@
+plugins {
+    id 'com.android.application'
+}
+
+// ---- 签名配置 ----------------------------------------------------------
+// 三种来源，按优先级：
+//   1. app/keystore.properties  (storeFile / storePassword / keyAlias / keyPassword)
+//   2. app/ 目录下直接放 keystore 文件，用默认口令
+//   3. 都没有 → 跳过签名，只产出 unsigned 包，不中断构建
+def ksProps = new Properties()
+def ksPropsFile = file("keystore.properties")
+if (ksPropsFile.exists()) {
+    ksPropsFile.withInputStream { ksProps.load(it) }
+}
+def ksStoreFile = file(ksProps.getProperty("storeFile", "shijinpu.jks"))
+def hasReleaseKey = ksStoreFile.exists()
+
+android {
+    namespace 'com.shijinpu.reader'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.shijinpu.reader"
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+        // 只保留中文与英文资源，减小体积
+        resourceConfigurations += ["zh", "en"]
+    }
+
+    signingConfigs {
+        if (hasReleaseKey) {
+            release {
+                storeFile ksStoreFile
+                storePassword ksProps.getProperty("storePassword", "shijinpu")
+                keyAlias ksProps.getProperty("keyAlias", "shijinpu")
+                keyPassword ksProps.getProperty("keyPassword", "shijinpu")
+                enableV1Signing true
+                enableV2Signing true
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+            if (hasReleaseKey) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    androidResources {
+        noCompress += ["epub"]
+    }
+}
+
+dependencies {
+    implementation "androidx.webkit:webkit:1.12.1"
+}

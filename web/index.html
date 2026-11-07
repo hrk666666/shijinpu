@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-motion="full" data-shape="standard">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+  <meta name="theme-color" content="#E8452C">
+  <title>什锦铺 · Material 3</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='26' fill='%23E8452C'/><text x='50' y='68' font-size='58' text-anchor='middle' fill='white' font-family='sans-serif'>什</text></svg>">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/views.css">
+</head>
+<body>
+  <div id="app">
+    <div id="view-root"></div>
+    <div id="overlay-root"></div>
+    <div id="splash">
+      <div class="splash-mark">什</div>
+      <div class="splash-name">什锦铺</div>
+      <div class="splash-sub">Material Design 3</div>
+    </div>
+  </div>
+  <script>
+    // Surface module errors instead of failing silently.
+    function showErr(msg) {
+      const d = document.createElement("pre");
+      d.style.cssText = "position:fixed;left:0;right:0;bottom:0;z-index:9999;max-height:60%;overflow:auto;background:#7f1d1d;color:#fff;font:12px/1.5 monospace;padding:12px;margin:0;white-space:pre-wrap";
+      d.textContent = msg;
+      document.body.appendChild(d);
+    }
+    window.addEventListener("error", (e) => showErr("ERROR: " + e.message + "\n" + (e.filename || "") + ":" + (e.lineno || "") + "\n" + ((e.error && e.error.stack) || "")));
+    window.addEventListener("unhandledrejection", (e) => showErr("REJECTION: " + ((e.reason && (e.reason.stack || e.reason.message)) || e.reason)));
+  </script>
+  <script type="module" src="js/app.js"></script>
+
+</body>
+</html>
