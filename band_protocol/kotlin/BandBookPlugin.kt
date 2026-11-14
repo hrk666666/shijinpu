@@ -144,9 +144,6 @@ class BandBookPlugin : FlutterPlugin, MethodChannel.MethodCallHandler, EventChan
                     return@addOnSuccessListener
                 }
                 val target = nodes[0]
-                // 时序对齐弦电子书手机端：先把「手环端」拉起来，等它站稳
-                // （约 0.3s），再询问授权。先弹授权时手环端还没醒，用户在
-                // 手环上点「允许」的窗口期容易错过。
                 launchApp(target, result)
             }
             .addOnFailureListener {
@@ -154,24 +151,56 @@ class BandBookPlugin : FlutterPlugin, MethodChannel.MethodCallHandler, EventChan
             }
     }
 
-    /** 请求 DEVICE_MANAGER（与手环快应用互发的必需权限）。 */
-    private fun ensurePermission(target: Node, done: (Boolean) -> Unit) {
+    /**
+     * 连接分两条路径，差别只在授权弹窗什么时候出：
+     *
+     * - 已授权（重连常态）：查安装 → 拉起手环端 → 等接收页立稳 → 挂监听。
+     * - 未授权（首连，或换包名/签名后授权被运动健康重置）：isWearAppInstalled
+     *   等 NodeApi 调用在授权前一律返回 permission denied，先查安装会把
+     *   流程掐死，授权弹窗永远出不来。所以先把「手环端」拉起来把屏幕唤醒，
+     *   等约 0.3s 再询问授权（顺序反了用户在手环上确认时弹窗还没准备好），
+     *   授权通过后才查安装状态。
+     */
+    private fun launchApp(target: Node, result: MethodChannel.Result) {
         val auth = Wearable.getAuthApi(context)
         val permissions = arrayOf<Permission?>(Permission.DEVICE_MANAGER)
         auth.checkPermissions(target.id, permissions)
             .addOnSuccessListener { granted ->
-                if (granted != null && granted.isNotEmpty() && granted[0]) {
-                    done(true)
-                    return@addOnSuccessListener
+                val ok = granted != null && granted.isNotEmpty() && granted[0]
+                if (ok) {
+                    installAndLaunch(target, result)
+                } else {
+                    warmUpThenAuth(target, result)
                 }
-                auth.requestPermission(target.id, Permission.DEVICE_MANAGER)
-                    .addOnSuccessListener { done(true) }
-                    .addOnFailureListener { done(false) }
             }
-            .addOnFailureListener { done(false) }
+            .addOnFailureListener {
+                // 连权限查询都失败就按未授权处理：走拉起+询问，给用户授权的机会。
+                warmUpThenAuth(target, result)
+            }
     }
 
-    private fun launchApp(target: Node, result: MethodChannel.Result) {
+    private fun warmUpThenAuth(target: Node, result: MethodChannel.Result) {
+        val nodeApi = Wearable.getNodeApi(context)
+        // 未授权时 launchWearApp 也可能被拒：忽略失败——它的任务只是唤醒
+        // 手环屏幕，让授权弹窗有更大机会被用户看到。
+        nodeApi.launchWearApp(target.id, "/pages/push")
+            .addOnSuccessListener { askAuthThenFinish(target, result) }
+            .addOnFailureListener { askAuthThenFinish(target, result) }
+    }
+
+    private fun askAuthThenFinish(target: Node, result: MethodChannel.Result) {
+        // 先启动手环端，等约 0.3s 让它站稳，再询问授权。
+        main.postDelayed({
+            Wearable.getAuthApi(context)
+                .requestPermission(target.id, Permission.DEVICE_MANAGER)
+                .addOnSuccessListener { installAndLaunch(target, result) }
+                .addOnFailureListener {
+                    result.error("auth_denied", "手环授权被拒绝，请在小米运动健康里允许本应用", null)
+                }
+        }, 300)
+    }
+
+    private fun installAndLaunch(target: Node, result: MethodChannel.Result) {
         val nodeApi = Wearable.getNodeApi(context)
         nodeApi.isWearAppInstalled(target.id)
             .addOnSuccessListener { installed ->
@@ -186,18 +215,11 @@ class BandBookPlugin : FlutterPlugin, MethodChannel.MethodCallHandler, EventChan
                 // 手环端的接收页由弦电子书提供：/pages/push。
                 nodeApi.launchWearApp(target.id, "/pages/push")
                     .addOnSuccessListener {
-                        // 先启动手环端，等约 0.3s 让它把接收页立起来，再询问
-                        // 授权——顺序反了用户在手环上确认时弹窗还没准备好。
-                        android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
-                            ensurePermission(target) { granted ->
-                                if (!granted) {
-                                    result.error("auth_denied", "手环授权被拒绝，请在小米运动健康里允许本应用", null)
-                                    return@ensurePermission
-                                }
-                                node = target
-                                attachListener(target.id)
-                                result.success(mapOf("id" to target.id, "name" to target.name))
-                            }
+                        // 等约 0.3s 让接收页立起来，Dart 握手不会扑空。
+                        main.postDelayed({
+                            node = target
+                            attachListener(target.id)
+                            result.success(mapOf("id" to target.id, "name" to target.name))
                         }, 300)
                     }
                     .addOnFailureListener { error ->

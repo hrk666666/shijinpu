@@ -3,17 +3,17 @@
   "app": "com.yeyu.reader",
   "generatedAt": "2026-11-14T00:00:00+08:00",
   "latest": {
-    "versionName": "1.6.0",
-    "versionCode": 230,
+    "versionName": "1.6.1",
+    "versionCode": 231,
     "minVersionCode": 0,
-    "url": "https://github.com/hrk666666/shijinpu/releases/latest",
-    "notes": "更新检查与公告、镜像优选、手环协议开源。"
+    "url": "https://github.com/hrk666666/yeyu-reader",
+    "notes": "修复换包名后连接手环报「检查手环应用失败：permission denied」的授权死锁。"
   },
   "announcement": {
-    "id": 1,
+    "id": 2,
     "enabled": true,
-    "title": "页屿 1.6.0 已发布",
-    "body": "新增启动更新检查（可关闭）、公告、GitHub 镜像优选；手环传书协议已开源（band_protocol/）。发现新版本时会引导前往更新链接（可在 update.json 的 latest.url 自定义，例如网盘或落地页）。",
-    "url": "https://github.com/hrk666666/shijinpu"
+    "title": "页屿 1.6.1：修复手环连接授权",
+    "body": "修复改包名后首次连接手环报「检查手环应用失败：permission denied」的问题：未授权时先查安装状态会把授权弹窗堵死，现在会先拉起手环端再询问授权。下载请走 latest.url 指向的自定义链接，本仓不发 GitHub Release。",
+    "url": "https://github.com/hrk666666/yeyu-reader"
   }
 }

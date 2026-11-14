@@ -18,6 +18,12 @@ App 启动时拉取本文件（可在「设置 → 更新与公告」关闭）�
 | `announcement.enabled` | 是否启用 |
 | `announcement.url` | 公告可选跳转 |
 
+## 下载链接（latest.url）
+
+发现新版时 App **不从 GitHub 下载 APK**，只引导用户跳转 `latest.url`。把该链接换成你自己的
+**网盘 / 落地页 / 任意下载地址**即可（当前默认指向仓库主页作占位）。**本仓不发 GitHub Release**，
+不要把 `latest.url` 指向 Releases 页。
+
 ## 镜像
 
 App 内置多个 GitHub 镜像前缀并**自动测速优选**（raw.githubusercontent / jsDelivr / ghproxy 系），
