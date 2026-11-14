@@ -1,5 +1,11 @@
 # 什锦铺 · Material Design 3（本地应用版）
 
+> **许可与声明**：本目录属前代「什锦铺」Web 套件（存档，现行 App 为 Flutter 版「页屿」），
+> 现随本仓以 **AGPL-3.0** 授权（版权人 hrk_ 由 MIT 改授）。信息架构参照 ch6vip/fqapp
+> （GPL-3.0）的页面层级重写为纯 Web 实现，非官方衍生。与小米、番茄小说及 fqapp /
+> 弦电子书作者无隶属或合作关系；仅供个人学习研究，风险自负。
+> 完整来源与免责见[根 README](../README.md)。
+
 把原 Flutter 项目 `ch6vip/fqapp` 的页面层级与信息架构，用纯 Web（HTML + CSS + JS）重做为 Material Design 3 风格的可交互前端。**不启动任何本地服务器**：发行版已把 ES Modules 打成单个 IIFE，章节正文改成脚本注入，`file://` 直接可用。
 
 ## 运行

@@ -1,7 +1,18 @@
 # 页屿手环传书协议（Band Book Protocol）
 
-本目录开源「页屿（Yeyu Reader）」手机端与手环端之间**实际传递的通信协议**及相关实现，
-协议移植自 [moye 弦电子书（youshen2/com.bandbbs.ebook，AGPL-3.0）](https://github.com/youshen2/com.bandbbs.ebook)。
+本目录开源「页屿（Yeyu Reader）」手机端与手环端之间**实际传递的通信协议**及相关实现。
+
+## 来源与许可
+
+- **协议与通信实现**移植自 [moye 弦电子书（youshen2/com.bandbbs.ebook）](https://github.com/youshen2/com.bandbbs.ebook)（**AGPL-3.0**，作者 youshen2）：重连、看门狗、分片流控等链路逻辑沿用其开源实现，并在此基础上文档化、固化增量传书与阅读进度双向同步语义。上游版权与许可声明完整保留。
+- **手机端主体**（本目录之外的 App 代码）衍生自 fqapp 1.4.0（ch6vip/fqapp，**GPL-3.0**）。按 GPL-3.0 第 13 条，GPL-3.0 代码可并入 AGPL-3.0 作品，故**双端统一以下兼容的 AGPL-3.0 发布**。
+- 本目录（协议文档 + `phone/` + `kotlin/`）以 **AGPL-3.0** 授权，分发时须一并提供源码与修改说明。
+
+**非从属关系声明**：本项目与小米 / 华米（小米穿戴 SDK、VelaOS、小米手环、REDMI Watch、小米运动健康等）、fqapp 原作者 ch6vip、弦电子书作者 youshen2 均无隶属、授权或合作关系；提及仅用于说明技术来源与兼容对象。
+
+**免责**：仅供个人学习研究；修改版 rpk / 客户端的使用风险自负；按「现状」提供，无任何担保。完整声明见[根 README](../README.md)。
+
+## 目录
 
 - `phone/` — 手机端实现（Dart，`lib/services/band_book/`）
 - `kotlin/` — 手机端安卓桥（`BandBookPlugin.kt`，小米穿戴 SDK xms-wearable 1.4）
