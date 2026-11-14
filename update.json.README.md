@@ -22,7 +22,10 @@ App 启动时拉取本文件（可在「设置 → 更新与公告」关闭）�
 ## 下载链接（latest.url）
 
 发现新版时 App **不从 GitHub 下载 APK**，只引导用户跳转 `latest.url`。把该链接换成你自己的
-**网盘 / 落地页 / 任意下载地址**即可（当前默认指向仓库主页作占位）。
+**网盘 / 落地页 / 任意下载地址**即可。
+
+**默认更新下载地址（未另行说明时一律使用）：`https://pan.quark.cn/s/10d1e8548b36`（夸克网盘）。**
+发布新版本时如无特殊说明，`latest.url` 与 `announcement.url` 均填该地址。
 
 **本仓不发 GitHub Release**，不要把 `latest.url` 指向 Releases 页。
 

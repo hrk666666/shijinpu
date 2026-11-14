@@ -36,19 +36,22 @@
 
 ```jsonc
 // count 0: 手机 → 手环，开始握手
-{"tag": "__hs__", "count": 0, "version": 260600}
+{"tag": "__hs__", "count": 0, "version": 260600, "versionName": "26.6.1"}
 
-// count 1: 手环 → 手机，上报手环版本（versionCode）
-{"tag": "__hs__", "count": 1, "version": 260600}
+// count 1: 手环 → 手机，上报手环版本（versionCode + versionName）
+{"tag": "__hs__", "count": 1, "version": 260601, "versionName": "26.6.1.n67"}
 
 // count 2: 手机 → 手环，确认
-{"tag": "__hs__", "count": 2, "version": 260600}
+{"tag": "__hs__", "count": 2, "version": 260600, "versionName": "26.6.1"}
 ```
 
-- `version` 为协议版本号（当前 `260600`）。
-- 手环端要求手机上报版本 ≥ `126430`（`MIN_PHONE_VERSION`），低于则拒绝。
-- 手机端要求手环 `versionCode` ≥ `251231`。
-- 版本号递增不破坏兼容（只校验下限）。
+**版本规则（`versionName`，a.b.c 可续段）**：
+
+- 格式为点分段 `a.b.c(.d…)`：`a.b` 是兼容系列，`c` 及以后（修订号、机型码如 `n67`/`rw`/`o66`）不限。
+- **连接强制要求双方 `a.b` 一致**，不一致即拒绝（手机侧抛「版本不兼容」，手环侧弹版本错误页）。
+- 当前系列为 **26.6**：手机 `26.6.1` ↔ 手环 `26.6.1.{branch}`。
+- 旧端兼容：对端不回 `versionName` 时退化为数值版本下限检查——手环要求手机 `version` ≥ `126430`（`MIN_PHONE_VERSION`），手机要求手环 `version` ≥ `251231`。
+- `version`（数值）字段保留，供旧端互操作；新端一律以 `versionName` 的 a.b 判定为准。
 
 链路控制帧 `__link__`：手机侧链路失效时下发，双方清理在途命令。
 
